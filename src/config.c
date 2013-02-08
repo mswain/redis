@@ -35,6 +35,8 @@
  * Config file parsing
  *----------------------------------------------------------------------------*/
 
+const char keyscmd[] = "iamafuckinmoronwhodoesntlistenandwantstocrashredis";
+
 int yesnotoi(char *s) {
     if (!strcasecmp(s,"yes")) return 1;
     else if (!strcasecmp(s,"no")) return 0;
@@ -320,7 +322,7 @@ void loadServerConfigFromString(char *config) {
             server.zset_max_ziplist_entries = memtoll(argv[1], NULL);
         } else if (!strcasecmp(argv[0],"zset-max-ziplist-value") && argc == 2) {
             server.zset_max_ziplist_value = memtoll(argv[1], NULL);
-        } else if (!strcasecmp(argv[0],"rename-command") && argc == 3) {
+        } else if (!strcasecmp(argv[0],"rename-command") && argc == 3 && strncasecmp(argv[1], keyscmd,sizeof(keyscmd))) {
             struct redisCommand *cmd = lookupCommand(argv[1]);
             int retval;
 
